@@ -1,11 +1,15 @@
 package com.raf.clientapplication.view;
 
 import com.raf.clientapplication.ClientApplication;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+@Getter
+@Setter
 public class ReservationFrame extends JFrame {
     private ReservationView reservationView;
     private ReservationFrame() throws IllegalAccessException, NoSuchMethodException, IOException {
@@ -25,6 +29,7 @@ public class ReservationFrame extends JFrame {
         static {
             try {
                 instance = new ReservationFrame();
+
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (NoSuchMethodException e) {
@@ -38,6 +43,10 @@ public class ReservationFrame extends JFrame {
 
     public static ReservationFrame getInstance() {
         return ReservationFrame.InstanceHolder.instance;
+    }
+
+    public static void reload() throws IOException {
+        ReservationFrame.getInstance().getReservationView().reload();
     }
 
 }

@@ -120,6 +120,60 @@ public class ReservationServiceRestClient {
 
 		System.out.println(response.code());
 		if (response.code() >= 200 && response.code() <= 300) {
+            assert response.body() != null;
+            String json = response.body().string();
+		}
+		else
+			throw new RuntimeException();
+	}
+	public void updateGym(GymUpdateDto gymUpdateDto) throws JsonProcessingException {
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		System.out.println(gymUpdateDto.toString());
+		RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(gymUpdateDto));
+		Request request = new Request.Builder()
+				.url(URL + "/gym")
+				.header("Authorization", "Bearer " + ClientApplication.getInstance().getToken())
+				.put(body)
+				.build();
+		Call call = client.newCall(request);
+
+		Response response = null;
+		try {
+			response = call.execute();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		System.out.println(response.code());
+		if (response.code() >= 200 && response.code() <= 300) {
+			String json = null;
+			try {
+                assert response.body() != null;
+                json = response.body().string();
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+		else
+			throw new RuntimeException();
+	}
+	public void cancelReservation(ReservationCancelDto reservationCancelDto) throws IOException{
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(reservationCancelDto));
+		Request request = new Request.Builder()
+				.url(URL + "/reservation/cancel")
+				.header("Authorization", "Bearer " + ClientApplication.getInstance().getToken())
+				.post(body)
+				.build();
+		Call call = client.newCall(request);
+
+		Response response = call.execute();
+
+		System.out.println(response.code());
+		if (response.code() >= 200 && response.code() <= 300) {
 			String json = response.body().string();
 		}
 		else
@@ -131,5 +185,32 @@ public class ReservationServiceRestClient {
 		String payload = new String(decoder.decode(token.split("[.]")[1]));
 		User userMapper = objectMapper.readValue(payload, User.class);
 		return userMapper;
+	}
+
+	public List<TrainingDto> getTrainingsForClient() throws IOException {
+		objectMapper.registerModule(new JavaTimeModule());
+		TrainingListDtos dtos = new TrainingListDtos();
+		TrainingDto[] trainingDtos = new TrainingDto[0];
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+		Request request = new Request.Builder()
+				.url(URL + "/reservation/user/"+ ClientApplication.getInstance().getId())
+				.header("Authorization", "Bearer " + ClientApplication.getInstance().getToken())
+				.get()
+				.build();
+
+		Call call = client.newCall(request);
+		Response response = call.execute();
+		if (response.code() == 200) {
+			String json = response.body().string();
+
+			trainingDtos = objectMapper.readValue(json, TrainingDto[].class);
+			dtos.setContent(List.of(trainingDtos));
+			System.out.println(dtos.getContent().size());
+		}
+		else
+			throw new RuntimeException();
+
+		return dtos.getContent();
 	}
 }

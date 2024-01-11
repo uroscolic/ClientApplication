@@ -38,6 +38,7 @@ public class AdminView extends JPanel {
     private JButton registerButton;
     private JButton banButton;
     private JTable userTable;
+    private JButton backButton;
 
 
     private UserServiceRestClient userServiceRestClient;
@@ -105,6 +106,11 @@ public class AdminView extends JPanel {
                 e.printStackTrace();
             }
         });
+        backButton.addActionListener((event)->{
+            AdminFrame.getInstance().setVisible(false);
+            ReservationFrame.getInstance().setVisible(true);
+        });
+
     }
     private void refreshTable(List<UserDto> users) {
         userTableModel.setNumRows(0);
@@ -121,7 +127,7 @@ public class AdminView extends JPanel {
     }
     private JPanel createRegisterPanel() {
         JPanel panel = new JPanel(new FlowLayout());
-
+        backButton = new JButton("Back");
         emailLabel = new JLabel("Email: ");
         passwordLabel = new JLabel("Password: ");
         dateOfBirthLabel = new JLabel("Date of birth: ");
@@ -161,6 +167,7 @@ public class AdminView extends JPanel {
         panel.add(lastNamePanel);
         panel.add(usernamePanel);
         panel.add(registerButton);
+        panel.add(backButton);
 
 
         return panel;

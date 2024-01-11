@@ -21,4 +21,5 @@ public class GymDto {
     private List<TrainingTypeDto> trainingTypes = new ArrayList<>();
 
 
+
 }

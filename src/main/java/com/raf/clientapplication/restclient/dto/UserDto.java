@@ -21,9 +21,11 @@ public class UserDto {
     private String password;
     private boolean banned;
     private int numberOfTrainings;
+    private String nameOfGym;
     public UserDto() {
     }
-    public UserDto(String email, String firstName, String lastName, String username,String password, String role, boolean banned) {
+    public UserDto(String email, String firstName, String lastName, String username,String password,
+                   String role, boolean banned, int numberOfTrainings, String nameOfGym) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,6 +33,8 @@ public class UserDto {
         this.password = password;
         this.role = role;
         this.banned = banned;
+        this.numberOfTrainings = numberOfTrainings;
+        this.nameOfGym = nameOfGym;
     }
     @Override
     public String toString() {

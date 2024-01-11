@@ -1,8 +1,13 @@
 package com.raf.clientapplication.view;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.*;
 import java.io.IOException;
 
+@Getter
+@Setter
 public class EditFrame extends JFrame {
     private EditView editView;
     private EditFrame() throws IOException {

@@ -1,9 +1,14 @@
 package com.raf.clientapplication.view;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+@Getter
+@Setter
 public class AdminFrame extends JFrame {
     private AdminView adminView;
     private AdminFrame() throws IllegalAccessException, NoSuchMethodException, IOException {

@@ -28,7 +28,7 @@ public class ReservationView extends JPanel {
 	private ReservationServiceRestClient reservationServiceRestClient;
 	private JButton book;
 	private JButton searchButton;
-	private JButton cancelManagerButton;
+	private JButton cancelButton;
 	private JCheckBox checkBoxGroup;
 	private JCheckBox checkBoxIndividual;
 	private JTextField weekdayTextField;
@@ -60,7 +60,7 @@ public class ReservationView extends JPanel {
 		panel.add(book, BorderLayout.CENTER);
 		searchButton = new JButton("Search");
 		panel.add(searchButton);
-		cancelManagerButton = new JButton("Cancel Manager");
+		cancelButton = new JButton("Cancel Booked Trainings");
 
 		checkBoxGroup = new JCheckBox("Group");
 		panel.add(checkBoxGroup);
@@ -84,8 +84,8 @@ public class ReservationView extends JPanel {
 			String text;
 			TrainingDto trainingDto;
 			if(role.equals("ROLE_CLIENT")) {
-				 text = (String) bookTypeComboBox.getSelectedItem();
-				 trainingDto = reservationTableModel.getTrainingListDtos().getContent().get(reservationTable.getSelectedRow());
+				text = (String) bookTypeComboBox.getSelectedItem();
+				trainingDto = reservationTableModel.getTrainingListDtos().getContent().get(reservationTable.getSelectedRow());
 				ReservationCreateDto reservationCreateDto;
 
 				reservationCreateDto = new ReservationCreateDto(ClientApplication.getInstance().getId(), trainingDto.getId(),
@@ -123,25 +123,30 @@ public class ReservationView extends JPanel {
 			group = checkBoxGroup.isSelected();
 			individual = checkBoxIndividual.isSelected();
 			type = Objects.requireNonNull(typeComboBox.getSelectedItem()).toString();
-            try {
-                init();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+			try {
+				init();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 
 
-        });
+		});
 		adminButton.addActionListener((event) -> {
-			this.setVisible(false);
+			ReservationFrame.getInstance().setVisible(false);
 			AdminFrame.getInstance().setVisible(true);
-			ClientApplication.getInstance().setVisible(false);
 		});
 		editProfileButton.addActionListener((event) -> {
-			this.setVisible(false);
+			ReservationFrame.getInstance().setVisible(false);
 			EditFrame.getInstance().setVisible(true);
-			ClientApplication.getInstance().setVisible(false);
+		});
+		cancelButton.addActionListener((event) -> {
+			ReservationFrame.getInstance().setVisible(false);
+			CancelFrame.getInstance().setVisible(true);
 		});
 		setVisible(false);
+	}
+	public void reload() throws IOException {
+		init();
 	}
 	private void refreshTable(List<TrainingDto> trainings)
 	{
@@ -155,7 +160,7 @@ public class ReservationView extends JPanel {
 	}
 
 	public void init() throws IOException {
-		this.setVisible(true);
+
 		boolean flag = false;
 		typeComboBox.removeAllItems();
 		if(!role.equals("a") && role.equals("ROLE_MANAGER"))
@@ -189,7 +194,7 @@ public class ReservationView extends JPanel {
 			path += "/g-true";
 		else if(!group && individual)
 			path += "/g-false";
-		if(!Objects.equals(type, "Filter by type") && type != null)
+		if(!Objects.equals(type, "Filter by type") && !Objects.equals(type,"Filter/Add training by group type") && type != null)
 			path += "/t-"+type;
 		System.out.println("PATH: "+path);
 		System.out.println("weekday: "+weekday);
@@ -217,8 +222,7 @@ public class ReservationView extends JPanel {
 					bookTypeComboBox.addItem(type.getType());
 			});
 		}
-		if(!role.equals("ROLE_CLIENT"))
-			panel.add(cancelManagerButton);
+		panel.add(cancelButton);
 		if(role.equals("ROLE_ADMIN"))
 			panel.add(adminButton);
 
