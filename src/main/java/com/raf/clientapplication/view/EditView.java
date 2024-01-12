@@ -240,9 +240,9 @@ public class EditView extends JPanel {
             panel.add(oldTrainingsTypePanel);
             panel.add(isGroupPanel);
             panel.add(pricePanel);
+            panel.add(confirmGymChangesButton);
         }
 
-        panel.add(confirmGymChangesButton);
         panel.add(backButton);
 
 
