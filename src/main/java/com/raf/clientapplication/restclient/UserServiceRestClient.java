@@ -44,7 +44,7 @@ public class UserServiceRestClient {
 		Call call = client.newCall(request);
 
 		Response response = call.execute();
-
+		System.out.println(response.code());
 		if (response.code() >= 200 && response.code() <= 300) {
 			String json = response.body().string();
 			TokenResponseDto dto = objectMapper.readValue(json, TokenResponseDto.class);
@@ -54,7 +54,7 @@ public class UserServiceRestClient {
 
 		throw new RuntimeException("Invalid email or password");
 	}
-	public ClientDto registerClient(ClientCreateDto clientCreateDto) throws IOException {
+	public void registerClient(ClientCreateDto clientCreateDto) throws IOException {
 		objectMapper.registerModule(new JavaTimeModule());
 		RequestBody body = RequestBody.create(JSON, objectMapper.writeValueAsString(clientCreateDto));
 		System.out.println(objectMapper.writeValueAsString(clientCreateDto));
@@ -69,10 +69,10 @@ public class UserServiceRestClient {
 		System.out.println(response.code());
 		if (response.code() >= 200 && response.code() < 300) {
 			String json = response.body().string();
-			return objectMapper.readValue(json, ClientDto.class);
 
 		}
-		throw new RuntimeException("Something went wrong");
+		else
+			throw new RuntimeException("Something went wrong");
 	}
 	public void registerManager(ManagerCreateDto managerCreateDto) throws IOException {
 		objectMapper.registerModule(new JavaTimeModule());

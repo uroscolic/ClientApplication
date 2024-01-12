@@ -18,7 +18,7 @@ import okhttp3.*;
 public class ReservationServiceRestClient {
 
 	public static final String URL = "http://localhost:8081/api";
-
+//  public static final String URL = "http://localhost:8084/reservation-service/api";
 	public static final MediaType JSON
 		= MediaType.get("application/json; charset=utf-8");
 
