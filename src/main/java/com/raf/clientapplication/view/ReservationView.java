@@ -150,7 +150,12 @@ public class ReservationView extends JPanel {
 		notificationButton.addActionListener((event) -> {
 			ReservationFrame.getInstance().setVisible(false);
 			NotificationFrame.getInstance().setVisible(true);
-		});
+            try {
+                NotificationFrame.reload();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 		setVisible(false);
 	}
 	public void reload() throws IOException {

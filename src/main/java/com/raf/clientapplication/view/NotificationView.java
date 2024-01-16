@@ -132,7 +132,7 @@ public class NotificationView extends JPanel {
         }
     }
 
-    private void init() throws IOException {
+    public void init() throws IOException {
         List<NotificationDto> notificationDtos = notificationServiceRestClient.getNotifications("a");
         if(ClientApplication.getInstance().getRole().equals("ROLE_ADMIN")) {
             List<NotificationTypeDto> notificationTypeDtos = notificationServiceRestClient.getNotificationTypes();

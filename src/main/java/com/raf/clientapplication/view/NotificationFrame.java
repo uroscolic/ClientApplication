@@ -21,6 +21,11 @@ public class NotificationFrame extends JFrame {
         add(notificationView);
         notificationView.setVisible(true);
     }
+
+    public static void reload() throws IOException {
+        NotificationFrame.getInstance().getNotificationView().init();
+    }
+
     private static class InstanceHolder {
         private static NotificationFrame instance;
 

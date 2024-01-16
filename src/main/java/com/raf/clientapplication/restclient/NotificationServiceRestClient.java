@@ -14,8 +14,8 @@ import java.util.List;
 
 public class NotificationServiceRestClient {
 
-    public static final String URL = "http://localhost:8082/api";
-    //  public static final String URL = "http://localhost:8084/notification-service/api";
+    //public static final String URL = "http://localhost:8082/api";
+      public static final String URL = "http://localhost:8084/notification-service/api";
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
 
