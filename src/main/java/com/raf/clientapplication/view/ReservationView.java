@@ -36,6 +36,7 @@ public class ReservationView extends JPanel {
 	private JComboBox<String> bookTypeComboBox;
 	private JButton adminButton;
 	private JButton editProfileButton;
+	private JButton notificationButton;
 
 	private boolean group = false;
 	private boolean individual = false;
@@ -73,12 +74,15 @@ public class ReservationView extends JPanel {
 		bookTypeComboBox = new JComboBox<>();
 		adminButton = new JButton("Admin");
 		editProfileButton = new JButton("Edit Profile");
+		notificationButton = new JButton("Notifications");
 		this.add(panel);
 		init();
 		if(role.equals("ROLE_CLIENT"))
 			panel.add(bookTypeComboBox);
 		if(!role.equals("ROLE_ADMIN"))
 			panel.add(editProfileButton);
+
+		panel.add(notificationButton);
 
 		book.addActionListener((event) -> {
 			String text;
@@ -142,6 +146,10 @@ public class ReservationView extends JPanel {
 		cancelButton.addActionListener((event) -> {
 			ReservationFrame.getInstance().setVisible(false);
 			CancelFrame.getInstance().setVisible(true);
+		});
+		notificationButton.addActionListener((event) -> {
+			ReservationFrame.getInstance().setVisible(false);
+			NotificationFrame.getInstance().setVisible(true);
 		});
 		setVisible(false);
 	}
